@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, main!</string>
+    <string name="app_name">BuyList</string>
+    <string name="scan">Scan</string>
+    <string name="name">Product name</string>
+    <string name="bar_code">Bar code</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_product">Add Product</string>
+</resources>
