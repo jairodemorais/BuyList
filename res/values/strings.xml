@@ -7,5 +7,6 @@
     <string name="bar_code">Bar code</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="add_product">Add Product</string>
+    <string name="add_product">Add to list</string>
+    <string name="finish">Finish</string>
 </resources>

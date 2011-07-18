@@ -3,6 +3,7 @@ package com.android.buylist;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +12,9 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.data.DataManipulator;
+import com.android.providers.helpers.ProductHelper.Products;
 
 public class Save extends Activity implements OnClickListener {
-    private DataManipulator dh;
     static final int DIALOG_ID = 0;
     static final String SUCCESS_MESSAGE = "Information saved successfully ! Add Another Product";
     @Override
@@ -46,11 +46,12 @@ public class Save extends Activity implements OnClickListener {
 		case R.id.add:
 			 EditText name = (EditText) findViewById(R.id.name);
 			 EditText barCode = (EditText) findViewById(R.id.code);
-             String myEditText1= name.getText().toString();
-             String myEditText2= barCode.getText().toString();
+                 
+             ContentValues values = new ContentValues();
+             values.put(Products.NAME, name.getText().toString());
+             values.put(Products.BAR_CODE, barCode.getText().toString());
              
-             this.dh = new DataManipulator(this);
-             this.dh.insert(myEditText1,myEditText2);
+             getContentResolver().insert(Products.CONTENT_URI, values);
              showDialog(DIALOG_ID);
 			break;
 		case R.id.scan:

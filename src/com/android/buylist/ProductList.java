@@ -4,46 +4,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.SimpleCursorAdapter;
 
-import com.android.data.DataManipulator;
+import com.android.providers.ProductProvider;
+import com.android.providers.helpers.ProductHelper.Products;
 
 public class ProductList extends ListActivity {
-	public int idToModify;
-	private TextView selection;
-	DataManipulator dm;
-	
-	List<String[]> list = new ArrayList<String[]>();
-	List<String[]> names2 = null;
+	ProductProvider provider;
+	Cursor productsList = null;
+	ArrayAdapter<String> adapter;
+	List<Integer> checkedProducts;
 	String[] stg1;
-	
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.buylist);
-		dm = new DataManipulator(this);
-		names2 = dm.selectAll();
-		
-		stg1 = new String[names2.size()];
-		int x = 0;
-		String stg;
-		
-		for(String[] name : names2){
-			stg = name[1] + "-" + name[2];
-			stg1[x] = stg;
-			x++;
-		}
-		
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 
-							android.R.layout.simple_list_item_1, stg1);
-		this.setListAdapter(adapter);
-		selection = (TextView) findViewById(R.id.selection);
+		checkedProducts = new ArrayList<Integer>();
+		productsList = managedQuery(Products.CONTENT_URI, null, null, null, null);
+		String[] displayFields = new String[] {
+				Products.NAME, 
+				Products._ID
+        };
+
+		int[] displayViews = new int[] { 
+				android.R.id.text1, 
+                android.R.id.text2 
+        };
+		this.setListAdapter(new SimpleCursorAdapter(this, 
+                android.R.layout.simple_list_item_checked, productsList, 
+                displayFields, displayViews));
+				
 	}
 	
 	public void onListItemClick(ListView parent, View v, int position, long id){
-		selection.setText(stg1[position]);
+		CheckedTextView textview = (CheckedTextView)v;
+		
+		//checkedProducts.add(textview);
+	    textview.setChecked(!textview.isChecked());
 	}
+	public void addToList(View v) {
+		Intent newIntent = new Intent(v.getContext(), Save.class);
+		startActivity(newIntent);
+    }
+	public void FinishBuy(View v) {
+		//provider.delete(Products.CONTENT_URI, Products._ID, whereArgs)
+		
+    } 
 }

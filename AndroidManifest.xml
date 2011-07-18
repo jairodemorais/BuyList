@@ -4,9 +4,11 @@
       android:versionCode="1"
       android:versionName="1.0">
     <uses-sdk android:minSdkVersion="8" />
-
+	
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".Main"
+    	<provider android:name="com.android.providers.ProductProvider" 
+			  android:authorities="com.android.providers.ProductProvider" />
+        <activity android:name=".ProductList"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

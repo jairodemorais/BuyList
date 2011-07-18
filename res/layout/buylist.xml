@@ -4,22 +4,41 @@
 	android:orientation="vertical" 
 	android:layout_width="fill_parent" 
 	android:layout_height="fill_parent" >
-
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content" 
+	android:onClick="addToList"
+	android:clickable="true"
+	android:paddingTop="5sp"
+	android:color="#FFFFFF">	
+	<ImageView 
+		android:src="@drawable/buy" 
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" 
+		android:id="@+id/buy"
+		android:gravity="center_vertical|center_horizontal"
+		android:layout_centerVertical="true"
+		android:paddingLeft="50sp"/>
 	<TextView 
-		android:id="@+id/selection2" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content"
-		android:text="NAME – BAR CODE" />
+		android:text="@string/add_product" 
+		android:id="@+id/add_to_list" 
+		android:layout_height="wrap_content" 
+		android:layout_width="wrap_content"
+		android:gravity="center_vertical|center_horizontal" 
+		android:textSize = "23sp"
+		android:paddingLeft="85sp"
+		android:layout_centerVertical="true"/>
+</RelativeLayout>
 
-	<TextView 
-		android:id="@+id/selection" 
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content" />
-
-	<ListView 
-		android:id="@android:id/list" 
-		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent" 
-		android:drawSelectorOnTop="false" 
-		android:textSize="3dip" />
+<ListView 
+	android:id="@android:id/list" 
+	android:layout_width="fill_parent"
+	android:layout_height="250sp" 
+	android:drawSelectorOnTop="false" 
+	android:textSize="3dip" />
+<Button android:id="@+id/button1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/finish"></Button>
+	
+	
 </LinearLayout>
