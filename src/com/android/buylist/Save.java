@@ -12,7 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.providers.helpers.ProductHelper.Products;
+import com.android.provider.helpers.ProductHelper.Products;
 
 public class Save extends Activity implements OnClickListener {
     static final int DIALOG_ID = 0;

@@ -1,8 +1,8 @@
-package com.android.providers;
+package com.android.provider;
 
 import java.util.HashMap;
 
-import com.android.providers.helpers.ProductHelper.Products;
+import com.android.provider.helpers.ProductHelper.Products;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -22,9 +22,10 @@ public class ProductProvider extends ContentProvider{
 	private static final String DATABASE_NAME = "buylist.db";
 	private static final int DATABASE_VERSION = 1;
 	private static final String PRODUCTS_TABLE_NAME = "products";
-	public static final String AUTHORITY = "com.android.providers.ProductProvider";
+	public static final String AUTHORITY = "com.android.provider.ProductProvider";
 	private static final UriMatcher sUriMatcher;
 	private static final int PRODUCTS = 1;
+	private static final int PRODUCTS_ID = 2;
 	private static HashMap<String, String> productsProjectionMap;
 	private static class DatabaseHelper extends SQLiteOpenHelper {
 		DatabaseHelper(Context context) {
@@ -59,6 +60,9 @@ public class ProductProvider extends ContentProvider{
        int count;
        switch (sUriMatcher.match(uri)) {
             case PRODUCTS:
+                count = db.delete(PRODUCTS_TABLE_NAME, where, whereArgs);
+                break;
+            case PRODUCTS_ID:
                 count = db.delete(PRODUCTS_TABLE_NAME, where, whereArgs);
                 break;
             default:
@@ -132,6 +136,7 @@ public class ProductProvider extends ContentProvider{
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(AUTHORITY, PRODUCTS_TABLE_NAME, PRODUCTS);
+        sUriMatcher.addURI("AUTHORITY", PRODUCTS_TABLE_NAME +"/#", PRODUCTS_ID);
         productsProjectionMap = new HashMap<String, String>();
         productsProjectionMap.put(Products._ID, Products._ID);
         productsProjectionMap.put(Products.NAME, Products.NAME);

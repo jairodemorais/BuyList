@@ -4,56 +4,66 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import com.android.providers.ProductProvider;
-import com.android.providers.helpers.ProductHelper.Products;
+import com.android.provider.ProductProvider;
+import com.android.provider.helpers.ProductHelper.Products;
 
 public class ProductList extends ListActivity {
 	ProductProvider provider;
 	Cursor productsList = null;
 	ArrayAdapter<String> adapter;
-	List<Integer> checkedProducts;
+	List<String> checkedProducts;
 	String[] stg1;
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.buylist);
-		checkedProducts = new ArrayList<Integer>();
-		productsList = managedQuery(Products.CONTENT_URI, null, null, null, null);
-		String[] displayFields = new String[] {
-				Products.NAME, 
-				Products._ID
-        };
-
-		int[] displayViews = new int[] { 
-				android.R.id.text1, 
-                android.R.id.text2 
-        };
-		this.setListAdapter(new SimpleCursorAdapter(this, 
-                android.R.layout.simple_list_item_checked, productsList, 
-                displayFields, displayViews));
-				
+		checkedProducts = new ArrayList<String>();
+		fillData();
+		Button finishButton = (Button)this.findViewById(R.id.finish);
+		finishButton.setOnClickListener(new OnClickListener() {
+		    @Override
+		    public void onClick(View v) {
+		    	ContentResolver cr = getContentResolver();
+		    	for(String id : checkedProducts){
+		    		String where  = Products._ID + "="+ id;
+		    		cr.delete(Products.CONTENT_URI, where,null);
+		    	}
+				fillData();
+		    }
+		  });
 	}
 	
 	public void onListItemClick(ListView parent, View v, int position, long id){
 		CheckedTextView textview = (CheckedTextView)v;
-		
-		//checkedProducts.add(textview);
+		checkedProducts.add(Long.toString(id));
 	    textview.setChecked(!textview.isChecked());
 	}
 	public void addToList(View v) {
 		Intent newIntent = new Intent(v.getContext(), Save.class);
 		startActivity(newIntent);
     }
-	public void FinishBuy(View v) {
-		//provider.delete(Products.CONTENT_URI, Products._ID, whereArgs)
-		
-    } 
+	private void fillData() {
+		productsList = managedQuery(Products.CONTENT_URI, null, null, null, null);
+		String[] displayFields = new String[] {
+				Products.NAME
+        };
+
+		int[] displayViews = new int[] { 
+				android.R.id.text1
+        };
+		this.setListAdapter(new SimpleCursorAdapter(this, 
+                android.R.layout.simple_list_item_checked, productsList, 
+                displayFields, displayViews));
+    }
 }
