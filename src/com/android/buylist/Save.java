@@ -30,11 +30,16 @@ public class Save extends Activity implements OnClickListener {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
-                String contents = intent.getStringExtra("SCAN_RESULT");                
-                TextView code =  (TextView)findViewById(R.id.code);
-                code.setText(contents);
-                
-                // Handle successful scan
+                String barCode = intent.getStringExtra("SCAN_RESULT");                
+                String where  = Products.BAR_CODE + "="+ barCode;
+                ContentValues values = new ContentValues();
+                values.put(Products.IN_LIST.toString(), "true");
+                if(getContentResolver().update(Products.CONTENT_URI, values, where, null)== 1){
+                	Save.this.finish();
+                }else{
+                	TextView code =  (TextView)findViewById(R.id.code);
+                	code.setText(barCode);
+                }
             } else if (resultCode == RESULT_CANCELED) {
                 // Handle cancel
             }
@@ -50,7 +55,7 @@ public class Save extends Activity implements OnClickListener {
              ContentValues values = new ContentValues();
              values.put(Products.NAME, name.getText().toString());
              values.put(Products.BAR_CODE, barCode.getText().toString());
-             
+             values.put(Products.IN_LIST.toString(), "true");
              getContentResolver().insert(Products.CONTENT_URI, values);
              showDialog(DIALOG_ID);
 			break;

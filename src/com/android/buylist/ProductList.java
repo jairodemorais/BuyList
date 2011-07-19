@@ -25,6 +25,8 @@ public class ProductList extends ListActivity {
 	ArrayAdapter<String> adapter;
 	List<String> checkedProducts;
 	String[] stg1;
+	
+	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.buylist);
@@ -42,8 +44,15 @@ public class ProductList extends ListActivity {
 				fillData();
 		    }
 		  });
+		
 	}
 	
+	@Override
+	  protected void onResume() {
+	    super.onResume();
+	    fillData();
+	  } 
+    
 	public void onListItemClick(ListView parent, View v, int position, long id){
 		CheckedTextView textview = (CheckedTextView)v;
 		checkedProducts.add(Long.toString(id));
@@ -54,10 +63,15 @@ public class ProductList extends ListActivity {
 		startActivity(newIntent);
     }
 	private void fillData() {
-		productsList = managedQuery(Products.CONTENT_URI, null, null, null, null);
+		
+		String where  = Products.IN_LIST + "='true'";
 		String[] displayFields = new String[] {
-				Products.NAME
+				Products.NAME,
+				Products._ID,
+				Products.IN_LIST
         };
+		productsList = managedQuery(Products.CONTENT_URI, displayFields, where, null, null);
+		
 
 		int[] displayViews = new int[] { 
 				android.R.id.text1
@@ -65,5 +79,8 @@ public class ProductList extends ListActivity {
 		this.setListAdapter(new SimpleCursorAdapter(this, 
                 android.R.layout.simple_list_item_checked, productsList, 
                 displayFields, displayViews));
+		
+		ListView listview = getListView();
+		listview.setItemChecked(0, true);
     }
 }

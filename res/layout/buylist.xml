@@ -37,7 +37,8 @@
 	android:layout_width="fill_parent"
 	android:layout_height="250sp" 
 	android:drawSelectorOnTop="false" 
-	android:textSize="3dip" />
+	android:textSize="3dip" 
+	android:choiceMode="multipleChoice"/>
 <Button 
 	android:id="@+id/finish" 
 	android:layout_width="wrap_content" 
