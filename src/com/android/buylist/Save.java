@@ -1,5 +1,15 @@
 package com.android.buylist;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,6 +27,7 @@ import com.android.provider.helpers.ProductHelper.Products;
 public class Save extends Activity implements OnClickListener {
     static final int DIALOG_ID = 0;
     static final String SUCCESS_MESSAGE = "Information saved successfully ! Add Another Product";
+    static final String KEY ="AIzaSyAdPullFIgDyP7wG1uZH-qd69SV7fBBPzo";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +48,7 @@ public class Save extends Activity implements OnClickListener {
                 if(getContentResolver().update(Products.CONTENT_URI, values, where, null)== 1){
                 	Save.this.finish();
                 }else{
+                	//requestProduct(barCode);
                 	TextView code =  (TextView)findViewById(R.id.code);
                 	code.setText(barCode);
                 }
@@ -45,7 +57,6 @@ public class Save extends Activity implements OnClickListener {
             }
         }
     }
-
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.add:
@@ -92,5 +103,36 @@ public class Save extends Activity implements OnClickListener {
 			default:
 		}
 		return dialog;
+	}
+	private void requestProduct(String barCode){
+		BufferedReader in = null;
+        try {
+            HttpClient client = new DefaultHttpClient();
+            HttpGet request = new HttpGet();
+            request.setURI(new URI("https://www.googleapis.com/shopping/search/v1/public/products?key="+KEY+"&country=AR&q="+barCode));
+            HttpResponse response = client.execute(request);
+            in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            StringBuffer sb = new StringBuffer("");
+            String line = "";
+            String NL = System.getProperty("line.separator");
+            while ((line = in.readLine()) != null) {
+                sb.append(line + NL);
+            }
+            in.close();
+            String page = sb.toString();
+            System.out.println(page);
+            }
+        catch(Exception ex){
+        	ex.printStackTrace();
+        }
+        finally {
+            if (in != null) {
+                try {
+                    in.close();
+                    } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            }
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -36,10 +37,11 @@ public class ProductList extends ListActivity {
 		finishButton.setOnClickListener(new OnClickListener() {
 		    @Override
 		    public void onClick(View v) {
-		    	ContentResolver cr = getContentResolver();
 		    	for(String id : checkedProducts){
 		    		String where  = Products._ID + "="+ id;
-		    		cr.delete(Products.CONTENT_URI, where,null);
+		    		ContentValues values = new ContentValues();
+	                values.put(Products.IN_LIST.toString(), "false");
+	                getContentResolver().update(Products.CONTENT_URI, values, where, null);
 		    	}
 				fillData();
 		    }
@@ -55,7 +57,11 @@ public class ProductList extends ListActivity {
     
 	public void onListItemClick(ListView parent, View v, int position, long id){
 		CheckedTextView textview = (CheckedTextView)v;
-		checkedProducts.add(Long.toString(id));
+		if(textview.isChecked()){
+			checkedProducts.remove(Long.toString(id));
+		}else{
+			checkedProducts.add(Long.toString(id));
+		}
 	    textview.setChecked(!textview.isChecked());
 	}
 	public void addToList(View v) {
@@ -81,6 +87,6 @@ public class ProductList extends ListActivity {
                 displayFields, displayViews));
 		
 		ListView listview = getListView();
-		listview.setItemChecked(0, true);
+		//listview.setItemChecked(0, true);
     }
 }
