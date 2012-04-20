@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.android.buylist"
-      android:versionCode="1"
-      android:versionName="1.0">
+      package="com.tedebold.buylist"
+      android:versionCode="2"
+      android:versionName="1.0.1">
     <uses-sdk android:minSdkVersion="8" />
 	
-    <application android:icon="@drawable/icon" android:label="@string/app_name">
-    	<provider android:name="com.android.provider.ProductProvider" 
-			  android:authorities="com.android.provider.ProductProvider" />
+    <application android:icon="@drawable/marketlist" android:label="@string/app_name">
+
+    	<provider android:name="com.tedebold.provider.ProductProvider"
+                  android:authorities="ProductProvider"/>
+
         <activity android:name=".ProductList"
-                  android:label="@string/app_name">
+                  android:label="@string/app_name"
+                  android:theme="@android:style/Theme.NoTitleBar" />
+		<activity android:name=".Save"
+                  android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-		<activity android:name=".Save"></activity>
+        <activity android:name="com.google.ads.AdActivity"
+                  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission> 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
 </manifest>

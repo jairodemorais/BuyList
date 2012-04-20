@@ -1,4 +1,4 @@
-package com.android.provider;
+package com.tedebold.provider;
 
 import java.util.HashMap;
 
@@ -10,14 +10,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
-import android.graphics.Path.FillType;
 import android.net.Uri;
 
-import com.android.data.DatabaseHelper;
-import com.android.provider.helpers.ProductHelper.Products;
+import com.tedebold.data.DatabaseHelper;
+import com.tedebold.provider.helpers.ProductHelper.Products;
 
 public class ProductProvider extends ContentProvider{
-	public static final String AUTHORITY = "com.android.provider.ProductProvider";
+	public static final String AUTHORITY = "ProductProvider";
 	private static final UriMatcher sUriMatcher;
 	private static final int PRODUCTS = 1;
 	private static final int PRODUCTS_ID = 2;

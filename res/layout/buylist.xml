@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" 
 	android:layout_width="fill_parent" 
 	android:layout_height="fill_parent" >
-<RelativeLayout
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="fill_parent"
+                  android:layout_height="50sp"
+                  android:id="@+id/adsList"
+                  android:gravity="top"/>
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="fill_parent"
+                  android:layout_height="1sp"
+                  android:layout_below="@+id/adsList"
+                  android:background="#C0C0C0"/>
+  <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="horizontal" 
 	android:layout_width="fill_parent" 
-	android:layout_height="50sp" 
+	android:layout_height="55sp"
 	android:onClick="addToList"
 	android:clickable="true"
 	android:paddingTop="5sp"
 	android:color="#FFFFFF"
-	android:id="@+id/add_container">	
+	android:id="@+id/add_container"
+    android:layout_marginTop="50sp">
+
 	<ImageView 
 		android:src="@drawable/buy" 
 		android:layout_width="wrap_content"
@@ -31,25 +45,33 @@
 		android:textSize = "23sp"
 		android:paddingLeft="85sp"
 		android:layout_centerVertical="true"/>
+     <LinearLayout android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1sp"
+                    android:layout_below="@+id/add_to_list"
+                    android:background="#C0C0C0"/>
 </RelativeLayout>
 
-<ListView 
-	android:id="@android:id/list" 
-	android:layout_width="fill_parent"
-	android:layout_height="250sp" 
-	android:drawSelectorOnTop="false" 
-	android:textSize="3dip" 
-	android:choiceMode="multipleChoice"
-	android:layout_below="@+id/add_container"/>
+  <AbsoluteLayout  android:id="@+id/body" android:layout_width="fill_parent"
+    android:layout_height="wrap_content" android:orientation="horizontal" android:layout_below="@+id/add_container"
+    android:layout_above="@+id/footer">
+      <ListView
+      android:id="@android:id/list"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:drawSelectorOnTop="false"
+      android:textSize="3dip"
+      android:choiceMode="multipleChoice"/>
+  </AbsoluteLayout >
 	
 	<RelativeLayout  android:id="@+id/footer" android:layout_width="fill_parent"
     android:layout_height="wrap_content" android:orientation="horizontal"
     android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
 		<Button 
-		android:id="@+id/finish" 
-		android:layout_width="150sp" 
-		android:layout_height="wrap_content" 
-		android:text="@string/finish" 
-		android:layout_centerInParent="true"/>
-	</RelativeLayout >	
+		  android:id="@+id/finish"
+		  android:layout_width="150sp"
+		  android:layout_height="wrap_content"
+		  android:text="@string/finish"
+		  android:layout_centerInParent="true"/>
+	</RelativeLayout>
 </RelativeLayout>

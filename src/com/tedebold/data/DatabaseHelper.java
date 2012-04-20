@@ -1,11 +1,11 @@
-package com.android.data;
+package com.tedebold.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.android.provider.helpers.ProductHelper.Products;
+import com.tedebold.provider.helpers.ProductHelper.Products;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "buylist.db";
