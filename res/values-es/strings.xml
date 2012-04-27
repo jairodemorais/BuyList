@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BuyList</string>
+    <string name="scan">Escanear</string>
+    <string name="find">Buscar</string>
+    <string name="name">Nombre del producto</string>
+    <string name="bar_code">Codigo de barras</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="add_product">Agregar a la lista</string>
+    <string name="finish">Sacar</string>
+</resources>
