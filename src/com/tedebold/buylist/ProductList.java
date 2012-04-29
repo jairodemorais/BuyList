@@ -108,17 +108,19 @@ public class ProductList extends ListActivity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
+    if(productsList == null || !productsList.moveToFirst()) return false;
+
     String productsMessage = "";
-    productsList.moveToFirst();
     do {
       productsMessage += productsList.getString(0) + ", ";
     } while (productsList.moveToNext());
 
+    productsMessage = productsMessage.substring(0,productsMessage.length() - 2);
     switch (item.getItemId()) {
       case R.id.message: {
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         sendIntent.setData(Uri.parse("sms:"));
-        sendIntent.putExtra("sms_body", productsMessage.substring(0,productsMessage.length() - 2));
+        sendIntent.putExtra("sms_body", productsMessage);
         startActivity(sendIntent);
         break;
       }
