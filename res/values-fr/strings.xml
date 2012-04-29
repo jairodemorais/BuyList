@@ -12,4 +12,5 @@
     <string name="emailSelector">Envoyez-nous votre email:</string>
     <string name="sendByEmail">Envoyer par e-mail</string>
     <string name="sendByMsg">Envoyer par message texte</string>
+    <string name="validation">Vous devez entrer le nom et le code à barres.</string>
 </resources>

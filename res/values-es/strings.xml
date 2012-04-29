@@ -12,4 +12,5 @@
     <string name="emailSelector">Enviar con:</string>
     <string name="sendByEmail">Enviar por mail</string>
     <string name="sendByMsg">Enviar por mensaje</string>
+    <string name="validation">Debes ingresar un nombre y el codigo de barra.</string>
 </resources>

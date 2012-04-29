@@ -67,7 +67,6 @@ public class Save extends Activity implements OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 String[] productData = arg0.getItemAtPosition(arg2).toString().split("-");
-                System.out.println(productData[1] + "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                 addToList(productData[1]);
                 Save.this.finish();
             }
@@ -104,16 +103,20 @@ public class Save extends Activity implements OnClickListener {
                 finish();
                 break;
             case R.id.add:
-                EditText name = (EditText) findViewById(R.id.name);
-                EditText barCode = (EditText) findViewById(R.id.code);
+                EditText nameInput = (EditText) findViewById(R.id.name);
+                EditText barCodeInput = (EditText) findViewById(R.id.code);
 
-                if (name.getText().toString() != "") {
-                    ContentValues values = new ContentValues();
-                    values.put(Products.NAME, name.getText().toString());
-                    values.put(Products.BAR_CODE, barCode.getText().toString());
-                    values.put(Products.IN_LIST.toString(), "true");
-                    getContentResolver().insert(Products.CONTENT_URI, values);
-                    showDialog(DIALOG_ID);
+                String name = nameInput.getText().toString();
+                String barCode = barCodeInput.getText().toString();
+                if ( name != null && !name.isEmpty() && barCode != null && !barCode.isEmpty()) {
+                  ContentValues values = new ContentValues();
+                  values.put(Products.NAME, name);
+                  values.put(Products.BAR_CODE, barCode);
+                  values.put(Products.IN_LIST.toString(), "true");
+                  getContentResolver().insert(Products.CONTENT_URI, values);
+                  showDialog(DIALOG_ID);
+                } else {
+                  Toast.makeText(getApplicationContext(), getString(R.string.validation), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.scan:
