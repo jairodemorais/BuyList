@@ -9,4 +9,7 @@
     <string name="cancel">Annuler</string>
     <string name="add_product">Ajouter à la liste</string>
     <string name="finish">Supprimer</string>
+    <string name="emailSelector">Envoyez-nous votre email:</string>
+    <string name="sendByEmail">Envoyer par e-mail</string>
+    <string name="sendByMsg">Envoyer par message texte</string>
 </resources>

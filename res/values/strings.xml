@@ -9,4 +9,7 @@
     <string name="cancel">Cancel</string>
     <string name="add_product">Add to list</string>
     <string name="finish">Remove</string>
+    <string name="emailSelector">Send your email in:</string>
+    <string name="sendByEmail">Send by email</string>
+    <string name="sendByMsg">Send by text message</string>
 </resources>
