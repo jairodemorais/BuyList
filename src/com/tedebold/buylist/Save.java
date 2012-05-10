@@ -3,10 +3,12 @@ package com.tedebold.buylist;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +31,7 @@ public class Save extends Activity implements OnClickListener {
     static final int DIALOG_ID = 0;
     static final String SUCCESS_MESSAGE = "Information saved successfully ! Add Another Product";
     static final String KEY = "AIzaSyAdPullFIgDyP7wG1uZH-qd69SV7fBBPzo";
+    static final String BARCODE_SCANNER_PACKAGE= "com.google.zxing.client.android";
     private AdView adView;
     private static final String MY_AD_UNIT_ID = "a14f6b426ebd4fc";
     @Override
@@ -61,7 +64,7 @@ public class Save extends Activity implements OnClickListener {
         ArrayAdapter<String> products = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, productList);
 
-        AutoCompleteTextView find = (AutoCompleteTextView) findViewById(R.id.name);
+        AutoCompleteTextView find = (AutoCompleteTextView) findViewById(R.id.form_product_name);
         find.setAdapter(products);
         find.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -103,7 +106,7 @@ public class Save extends Activity implements OnClickListener {
                 finish();
                 break;
             case R.id.add:
-                EditText nameInput = (EditText) findViewById(R.id.name);
+                EditText nameInput = (EditText) findViewById(R.id.form_product_name);
                 EditText barCodeInput = (EditText) findViewById(R.id.code);
 
                 String name = nameInput.getText().toString();
@@ -120,11 +123,18 @@ public class Save extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.scan:
+              try{
                 Intent intent = new Intent("com.google.zxing.client.android.SCAN");
-                intent.setPackage("com.google.zxing.client.android");
+                intent.setPackage(BARCODE_SCANNER_PACKAGE);
                 intent.putExtra("SCAN_MODE", "PRODUCT_MODE");
                 startActivityForResult(intent, 0);
                 break;
+              } catch (ActivityNotFoundException e) {
+                Toast.makeText(getApplicationContext(),"you don't have the required barcode scanner app", Toast.LENGTH_SHORT).show();
+                Uri marketUri = Uri.parse("market://details?id=" + BARCODE_SCANNER_PACKAGE);
+                Intent marketIntent = new Intent(Intent.ACTION_VIEW, marketUri);
+                startActivity(marketIntent);
+              }
             default:
                 break;
         }
@@ -160,7 +170,7 @@ public class Save extends Activity implements OnClickListener {
     private void clearForm() {
         TextView code = (TextView) findViewById(R.id.code);
         code.setText("");
-        TextView name = (TextView) findViewById(R.id.name);
+        TextView name = (TextView) findViewById(R.id.form_product_name);
         name.setText("");
         name.requestFocus();
 

@@ -1,77 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" 
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent" >
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="vertical"
                   android:layout_width="fill_parent"
                   android:layout_height="50sp"
                   android:id="@+id/adsList"
                   android:gravity="top"/>
-    <LinearLayout android:orientation="vertical"
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="40sp"
+            android:clickable="true"
+            android:paddingTop="5sp"
+            android:color="#FFFFFF"
+            android:id="@+id/add_container"
+            android:background="@drawable/blue_background">
+
+        <TextView
+                android:text="@string/app_name"
+                android:id="@+id/buyList"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize = "23sp"
+                android:paddingLeft="15sp"
+                android:layout_centerVertical="true"/>
+
+        <View
+                android:layout_width="1dip"
+                android:layout_height="50sp"
+                android:background="#FFFF54"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="70sp" />
+
+        <ImageView
+                android:src="@drawable/buy"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/add"
+                android:layout_centerVertical="true"
+                android:paddingLeft="5sp"
+                android:paddingRight="5sp"
+                android:onClick="addToList"/>
+        <View
+                android:layout_width="1dip"
+                android:layout_height="50sp"
+                android:id="@+id/sp_add_msg"
+                android:background="#FFFF54"/>
+
+        <ImageView
+                android:src="@drawable/message"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/message"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_centerVertical="true"
+                android:paddingLeft="5sp"
+                android:paddingRight="5sp"
+                android:onClick="sendByMessage"/>
+
+        <View
+                android:layout_width="1dip"
+                android:layout_height="50sp"
+                android:background="#FFFF54"
+                android:layout_centerVertical="true"
+                android:id="@+id/sp_msg_mail"/>
+
+        <ImageView
+                android:src="@drawable/mail"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/mail"
+                android:layout_centerVertical="true"
+                android:paddingLeft="5sp"
+                android:onClick="sendByMail"/>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:id="@+id/body"
                   android:layout_width="fill_parent"
-                  android:layout_height="1sp"
-                  android:layout_below="@+id/adsList"
-                  android:background="#C0C0C0"/>
-  <RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="horizontal" 
-	android:layout_width="fill_parent" 
-	android:layout_height="55sp"
-	android:onClick="addToList"
-	android:clickable="true"
-	android:paddingTop="5sp"
-	android:color="#FFFFFF"
-	android:id="@+id/add_container"
-    android:layout_marginTop="50sp">
-
-	<ImageView 
-		android:src="@drawable/buy" 
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content" 
-		android:id="@+id/buy"
-		android:gravity="center_vertical|center_horizontal"
-		android:layout_centerVertical="true"
-		android:paddingLeft="50sp"/>
-	<TextView 
-		android:text="@string/add_product" 
-		android:id="@+id/add_to_list" 
-		android:layout_height="wrap_content" 
-		android:layout_width="wrap_content"
-		android:gravity="center_vertical|center_horizontal" 
-		android:textSize = "23sp"
-		android:paddingLeft="85sp"
-		android:layout_centerVertical="true"/>
-     <LinearLayout android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="1sp"
-                    android:layout_below="@+id/add_to_list"
-                    android:background="#C0C0C0"/>
-</RelativeLayout>
-
-  <AbsoluteLayout  android:id="@+id/body" android:layout_width="fill_parent"
-    android:layout_height="wrap_content" android:orientation="horizontal" android:layout_below="@+id/add_container"
-    android:layout_above="@+id/footer">
-      <ListView
-      android:id="@android:id/list"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
-      android:drawSelectorOnTop="false"
-      android:textSize="3dip"
-      android:choiceMode="multipleChoice"/>
-  </AbsoluteLayout >
-	
-	<RelativeLayout  android:id="@+id/footer" android:layout_width="fill_parent"
-    android:layout_height="wrap_content" android:orientation="horizontal"
-    android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
-		<Button 
-		  android:id="@+id/finish"
-		  android:layout_width="150sp"
-		  android:layout_height="wrap_content"
-		  android:text="@string/finish"
-		  android:layout_centerInParent="true"/>
-	</RelativeLayout>
-</RelativeLayout>
+                  android:layout_height="fill_parent"
+                  android:orientation="horizontal"
+                  android:background="#1F1F14"
+                  android:padding="3sp">
+        <ListView
+                android:id="@android:id/list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:drawSelectorOnTop="false"
+                android:background="@drawable/round_corners"
+                android:focusable="false"/>
+    </LinearLayout>
+</LinearLayout>

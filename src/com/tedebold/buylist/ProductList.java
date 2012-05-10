@@ -1,30 +1,21 @@
 package com.tedebold.buylist;
 import android.net.Uri;
 import android.text.Html;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
 import com.google.ads.*;
 import android.app.ListActivity;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.*;
-import com.tedebold.provider.ProductProvider;
+import com.tedebold.Model.Product;
+import com.tedebold.data.CustomAdapter;
 import com.tedebold.provider.helpers.ProductHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductList extends ListActivity {
   private AdView adView;
-  ProductProvider provider;
-  Cursor productsList = null;
-  ArrayAdapter<String> adapter;
-  List<String> checkedProducts;
   private static final String MY_AD_UNIT_ID = "a14f6b426ebd4fc";
 
   @Override
@@ -32,21 +23,7 @@ public class ProductList extends ListActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.buylist);
     addAds();
-    checkedProducts = new ArrayList<String>();
     fillData();
-    Button finishButton = (Button) this.findViewById(R.id.finish);
-    finishButton.setOnClickListener(new OnClickListener() {
-      public void onClick(View v) {
-        for (String id : checkedProducts) {
-          String where = ProductHelper.Products._ID + "=" + id;
-          ContentValues values = new ContentValues();
-          values.put(ProductHelper.Products.IN_LIST.toString(), "false");
-          getContentResolver().update(ProductHelper.Products.CONTENT_URI, values, where, null);
-        }
-        fillData();
-      }
-    });
-
   }
 
   @Override
@@ -55,38 +32,13 @@ public class ProductList extends ListActivity {
     fillData();
   }
 
-  public void onListItemClick(ListView parent, View v, int position, long id) {
-    CheckedTextView textview = (CheckedTextView) v;
-    if (textview.isChecked()) {
-      checkedProducts.remove(Long.toString(id));
-    } else {
-      checkedProducts.add(Long.toString(id));
-    }
-    textview.setChecked(!textview.isChecked());
-  }
-
   public void addToList(View v) {
     Intent newIntent = new Intent(v.getContext(), Save.class);
     startActivity(newIntent);
   }
 
   private void fillData() {
-    String[] displayFields = new String[]{
-        ProductHelper.Products.NAME,
-        ProductHelper.Products._ID,
-        ProductHelper.Products.IN_LIST
-    };
-    productsList = getProductsList(displayFields);
-
-    int[] displayViews = new int[]{
-        android.R.id.text1
-    };
-    this.setListAdapter(new SimpleCursorAdapter(this,
-        android.R.layout.simple_list_item_checked, productsList,
-        displayFields, displayViews));
-
-    ListView listview = getListView();
-    //listview.setItemChecked(0, true);
+    this.setListAdapter(new CustomAdapter(this, R.layout.row, getProductsList()));
   }
 
   private void addAds(){
@@ -108,36 +60,66 @@ public class ProductList extends ListActivity {
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if(productsList == null || !productsList.moveToFirst()) return false;
-
-    String productsMessage = "";
-    do {
-      productsMessage += productsList.getString(0) + ", ";
-    } while (productsList.moveToNext());
-
-    productsMessage = productsMessage.substring(0,productsMessage.length() - 2);
     switch (item.getItemId()) {
       case R.id.message: {
-        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-        sendIntent.setData(Uri.parse("sms:"));
-        sendIntent.putExtra("sms_body", productsMessage);
-        startActivity(sendIntent);
+        sendByMessage(this.getListView());
         break;
       }
       case R.id.email: {
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setType("text/html");
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Buylist");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(productsMessage));
-        startActivity(Intent.createChooser(emailIntent,  getString(R.string.emailSelector)));
+        sendByMail(this.getListView());
         break;
       }
     }
     return true;
   }
 
-  private Cursor getProductsList(String [] displayFields) {
+  private ArrayList<Product> getProductsList() {
+    String[] displayFields = new String[]{
+        ProductHelper.Products.NAME,
+        ProductHelper.Products._ID,
+        ProductHelper.Products.IN_LIST,
+        ProductHelper.Products.BAR_CODE
+    };
+    ArrayList<Product> products = new ArrayList<Product>();
     String where = ProductHelper.Products.IN_LIST + "='true'";
-    return managedQuery(ProductHelper.Products.CONTENT_URI, displayFields, where, null, null);
+    Cursor productList =  managedQuery(ProductHelper.Products.CONTENT_URI, displayFields, where, null, null);
+
+    if(productList == null || !productList.moveToFirst()) return products;
+
+    do {
+      products.add(new Product(Integer.parseInt(productList.getString(1)),
+          productList.getString(3),
+          productList.getString(0)));
+    } while (productList.moveToNext());
+
+    return products;
+  }
+
+  private String getProductMessage() {
+    String productsMessage = "";
+    ArrayList<Product> prods = getProductsList();
+    for (int i = 0 ; i < prods.size(); i++ ){
+      productsMessage += prods.get(i).getName() + ", ";
+    }
+    if (productsMessage.isEmpty()) {
+      return productsMessage;
+    } else {
+      return productsMessage.substring(0,productsMessage.length() - 2);
+    }
+  }
+
+  public void sendByMessage(View v){
+    Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+    sendIntent.setData(Uri.parse("sms:"));
+    sendIntent.putExtra("sms_body", getProductMessage());
+    startActivity(sendIntent);
+  }
+
+  public void sendByMail(View v){
+    Intent emailIntent = new Intent(Intent.ACTION_SEND);
+    emailIntent.setType("text/html");
+    emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Buylist");
+    emailIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getProductMessage()));
+    startActivity(Intent.createChooser(emailIntent,  getString(R.string.emailSelector)));
   }
 }
