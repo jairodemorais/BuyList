@@ -6,27 +6,45 @@
               android:padding="6dip"
               android:focusable="false">
     <LinearLayout
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="0dip"
             android:layout_weight="1"
             android:layout_height="fill_parent"
             android:focusable="false">
-        <TextView
-                android:id="@+id/productName"
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dip"
                 android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:textColor="#777769"
-                android:textSize="20sp"
-                android:focusable="false"/>
-        <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="0dip"
-                android:layout_weight="1"
-                android:id="@+id/bottomtext"
-                android:singleLine="true"
-                android:ellipsize="marquee"
-                android:focusable="false"/>
+                android:layout_height="fill_parent"
+                android:focusable="false">
+            <TextView
+                    android:id="@+id/productName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="30sp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:textColor="#777769"
+                    android:textSize="18sp"
+                    android:focusable="false"/>
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="20sp"
+                    android:layout_weight="1"
+                    android:id="@+id/bottomtext"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:textSize="8sp"
+                    android:focusable="false"/>
+        </LinearLayout>
+        <ImageView
+                android:src="@drawable/trash"
+                android:layout_width="50sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_centerVertical="true"
+                android:paddingLeft="5sp"
+                android:paddingRight="5sp"
+                android:onClick="removeItem"/>
     </LinearLayout>
 </LinearLayout>

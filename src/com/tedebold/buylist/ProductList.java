@@ -1,6 +1,7 @@
 package com.tedebold.buylist;
 import android.net.Uri;
 import android.text.Html;
+import android.util.Log;
 import android.view.*;
 import com.google.ads.*;
 import android.app.ListActivity;
@@ -101,7 +102,7 @@ public class ProductList extends ListActivity {
     for (int i = 0 ; i < prods.size(); i++ ){
       productsMessage += prods.get(i).getName() + ", ";
     }
-    if (productsMessage.isEmpty()) {
+    if (productsMessage.equals("")) {
       return productsMessage;
     } else {
       return productsMessage.substring(0,productsMessage.length() - 2);
@@ -121,5 +122,10 @@ public class ProductList extends ListActivity {
     emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Buylist");
     emailIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(getProductMessage()));
     startActivity(Intent.createChooser(emailIntent,  getString(R.string.emailSelector)));
+  }
+
+  public void removeItem(View v){
+    String barcode = ((TextView)((LinearLayout)v.getParent()).findViewById(R.id.bottomtext)).getText().toString();
+    ((CustomAdapter)getListView().getAdapter()).remove(barcode);
   }
 }

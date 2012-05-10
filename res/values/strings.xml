@@ -12,4 +12,5 @@
     <string name="sendByEmail">Send by email</string>
     <string name="sendByMsg">Send by text message</string>
     <string name="validation">You must enter the name and bar code.</string>
+    <string name="warning">Your android version do not support drag and drop.</string>
 </resources>

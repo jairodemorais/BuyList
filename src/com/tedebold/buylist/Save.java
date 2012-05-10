@@ -111,7 +111,7 @@ public class Save extends Activity implements OnClickListener {
 
                 String name = nameInput.getText().toString();
                 String barCode = barCodeInput.getText().toString();
-                if ( name != null && !name.isEmpty() && barCode != null && !barCode.isEmpty()) {
+                if ( name != null && !name.equals("") && barCode != null && !barCode.equals("")) {
                   ContentValues values = new ContentValues();
                   values.put(Products.NAME, name);
                   values.put(Products.BAR_CODE, barCode);

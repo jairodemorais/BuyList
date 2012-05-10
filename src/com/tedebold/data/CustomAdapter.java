@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.tedebold.Model.Product;
 import com.tedebold.buylist.R;
 import com.tedebold.provider.helpers.ProductHelper;
@@ -47,6 +48,7 @@ public class CustomAdapter extends ArrayAdapter<Product> {
     v.setOnTouchListener(new View.OnTouchListener() {
       @Override
       public boolean onTouch(View view, MotionEvent motionEvent) {
+      try {
         TextView barcode = ((TextView) view.findViewById(R.id.bottomtext));
         if (barcode == null) return false;
         switch (motionEvent.getAction()) {
@@ -73,7 +75,10 @@ public class CustomAdapter extends ArrayAdapter<Product> {
           case MotionEvent.ACTION_CANCEL:
             clearValues(view);
         }
-        return true;
+      } catch (NoSuchMethodError error) {
+        Toast.makeText(getContext(), R.string.warning, Toast.LENGTH_SHORT).show();
+      }
+      return true;
       };
     });
 
